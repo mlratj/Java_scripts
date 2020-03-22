@@ -11,7 +11,7 @@ public class FleetManager implements IFleetManager {
     private ArrayList<Vehicle> fleet = new ArrayList<>();
     private HashMap<Vehicle, String> fleetInUse = new HashMap<>();
     private ArrayList<Vehicle> fleetInPlace = new ArrayList<>();
-    // <tutaj elementy, z których ma się coś składać>
+    // <here goes all the elements>
 
     @Override
     public Vehicle rentVehicle(String loaner) throws FleetException {

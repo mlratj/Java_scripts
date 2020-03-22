@@ -1,6 +1,6 @@
 package pl.lab.students.model;
 
-public class Car extends Vehicle { // extends pokazuje z czego dziedziczymy
+public class Car extends Vehicle { // extends shows which class it does inherit
     private static final int Price = 10;
 
     @Override

@@ -5,7 +5,7 @@ public abstract class Vehicle {
     private final String model;
     private final int HorsePower;
 
-    // final powoduje, że nie można później modyfikować wartości atrybutu
+    // final means that it is not possible to modify an attribute later on
 
     public Vehicle(String brand, String model, int HorsePower) {
         this.brand = brand;
@@ -25,6 +25,6 @@ public abstract class Vehicle {
         return HorsePower;
     }
 
-    public abstract int getPrice(); // abstract powoduje, że funckje dziedziczace musza dac info o cenie
+    public abstract int getPrice(); // abstract forces any function that inherits it must give a price
 }
 

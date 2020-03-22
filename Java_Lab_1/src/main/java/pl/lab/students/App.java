@@ -9,38 +9,38 @@ public class App {
     public static void main(String[] args) {
         try {
             IFleetManager fleetManager = new FleetManager();
-            Vehicle rentedVehicle = fleetManager.rentVehicle("Testowy Test");
+            Vehicle rentedVehicle = fleetManager.rentVehicle("First Tester");
             System.out.println(
                     String.format(
-                            "Wypożyczony pojazd - marka %s, model %s",
+                            "Rented vehicle - brand %s, model %s",
                             rentedVehicle.getBrand(),
                             rentedVehicle.getModel()
                     )
             );
-            Vehicle secondRentedVehicle = fleetManager.rentVehicle("Drugi Testowy Test");
+            Vehicle secondRentedVehicle = fleetManager.rentVehicle("Second Tester");
             System.out.println(
                     String.format(
-                            "Kolejny wypożyczony pojazd - marka %s, model %s",
+                            "Next rented vehicle - brand %s, model %s",
                             secondRentedVehicle.getBrand(),
                             secondRentedVehicle.getModel()
                     )
             );
             System.out.println(
                     String.format(
-                            "Pojazd zwrócony przez %s",
+                            "Vehicle given back by %s",
                             fleetManager.recoverVehicle(rentedVehicle)
                     )
             );
             System.out.println(
                     String.format(
-                            "Pojazd zwrócony przez %s",
+                            "Vehicle given back by %s",
                             fleetManager.recoverVehicle(secondRentedVehicle)
                     )
             );
         } catch (FleetException ex) {
-            System.err.println("Przykro nam, wystąpił błąd obsługi wypożyczenia lub zwrotu pojazdu...");
+            System.err.println("I am sorry, but an error occurred, while renting a vehicle...");
         } catch (Exception ex) {
-            System.err.println("Przykro nam, wystąpił błąd aplikacji...");
+            System.err.println("App crushed, sorry!");
         }
     }
     }
