@@ -1,0 +1,502 @@
+swagger: "2.0"
+info:
+  title: Movie App API
+  description: Sample Movie App API
+  version: 1.0.0
+host: api.pl
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
+definitions:
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Error message
+    required:
+      - message
+    example:
+      message: 'Sample error message.'
+
+# US1 - Registration (GET)
+  RegisterUserRequest:
+    type: object
+    properties:
+      email:
+        type: string
+        description: User email address
+      password:
+        type: string
+        description: User's password
+    required:
+      - email
+      - password
+    example:
+      email: 'user@api.pl'
+      password: 'password'
+# Answer
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: User's id
+      email:
+        type: string
+        description: User email address
+    required:
+      - id
+      - email
+    example:
+      id: 1
+      email: 'user@java-course.pl'
+
+# US2 - Logging in (GET)
+  AuthenticationRequest:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+      - email
+      - password
+    example:
+      email: 'user@java-course.pl'
+      password: 'password'
+
+# US3 - movies listing
+  Actor:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Actor id
+      first_name:
+        type: string
+        description: Actor first name
+      last_name:
+        type: string
+        description: Actor last name
+    required:
+      - id
+      - first_name
+      - last_name
+    example:
+      id: 1
+      first_name: 'John'
+      last_name: 'Nowak'
+# Supporting objects
+  Movie:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Movie id
+      genre:
+        type: string
+        enum:
+          - Action
+          - Comedy
+          - Drama
+          - Science fiction
+          - Thriller
+        description: Movie genre
+      title:
+        type: string
+        description: Movie title
+      rating:
+        type: integer
+        description: Movie rating
+      year:
+        type: string
+        format: 'yyyy'
+        description: Movie release year
+      director:
+        type: string
+        description: Movie director
+      actors:
+        type: array
+        items:
+          $ref: '#/definitions/Actor'
+    required:
+      - id
+      - title
+    example:
+      id: 1
+      genre: 'Drama'
+      title: 'A beautiful mind'
+      year: '2001'
+      director: 'Ron Howard'
+      actors:
+        - id: 1
+          first_name: 'Russell'
+          last_name: 'Crowe'
+        - id: 2
+          first_name: 'Ed'
+          last_name: 'Harris'
+        - id: 3
+          first_name: 'Jennifer'
+          last_name: 'Connelly'
+# Answer
+  MovieList:
+    type: object
+    properties:
+      total:
+        type: integer
+        description: Movie list total items count
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Movie'
+        description: One pagination page data
+    required:
+      - total
+      - data
+    example:
+      total_count: 9
+      data:
+        - id: 1
+          genre: 'Drama'
+          title: 'A beautiful mind'
+          year: '2001'
+          director: 'Ron Howard'
+          actors:
+            - id: 1
+              first_name: 'Russell'
+              last_name: 'Crowe'
+            - id: 2
+              first_name: 'Ed'
+              last_name: 'Harris'
+            - id: 3
+              first_name: 'Jennifer'
+              last_name: 'Connelly'
+
+# US4 Rate a movie (GET)
+  MovieRatingRequest:
+    type: object
+    properties:
+      movie_id:
+        type: integer
+        description: Movie to rate id
+      rating:
+        type: integer
+        description: My rate
+    required:
+      - movie_id
+      - rating
+    example:
+      movie_id: 1
+      rating: 10
+
+# US5 My movie library (GET)
+  MovieLibraryRequest:
+    type: object
+    properties:
+      movie_id:
+        type: integer
+        description: Movie to rate id
+      status:
+        type: string
+        enum:
+          - 'Seen'
+          - 'Want to see'
+        description: My status for movie
+    required:
+      - movie_id
+      - status
+    example:
+      movie_id: 1
+      rating: 'Seen'
+
+# US6 Add movie (GET)
+  MovieRequest:
+    type: object
+    properties:
+      genre:
+        type: string
+        enum:
+          - Action
+          - Comedy
+          - Drama
+          - Science fiction
+          - Thriller
+        description: Movie genre
+      title:
+        type: string
+        description: Movie title
+      year:
+        type: string
+        format: 'yyyy'
+        description: Movie release year
+      director:
+        type: string
+        description: Movie director
+    required:
+      - genre
+      - title
+      - year
+      - director
+    example:
+      genre: 'Drama'
+      title: 'A beautiful mind'
+      year: '2001'
+      director: 'Ron Howard'
+
+paths:
+  /user:
+    post:
+      summary: Register user.
+      operationId: postUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - description: New user's data
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/RegisterUserRequest'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Client error, e.g. unsifficient data
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+
+  /authenticate:
+    post:
+      summary: Authenticate user.
+      operationId: postAuthenticate
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - description: Credentials data.
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/AuthenticationRequest'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Client error, e.g. unsifficient data
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Unauthorized error, e.g. bad credentials data
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+
+  /movie:
+    get:
+      summary: >
+        Getting movie list, filter data via query request params.
+      operationId: getMovie
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - description: Number of records to return
+          in: query
+          name: limit
+          required: true
+          type: integer
+        - description: Initial index of records to return
+          in: query
+          name: offset
+          required: true
+          type: integer
+        - description: Phrase to search
+          in: query
+          name: search
+          required: false
+          type: string
+      responses:
+        200:
+          description: Movie list
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MovieList'
+        400:
+          description: Client error, e.g. unsifficient data
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Add movie.
+      operationId: postMovie
+      parameters:
+        - description: New movie data.
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/MovieRequest'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Movie'
+        400:
+          description: Client error, e.g. unsifficient data
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Unauthorized error
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+
+  /movie/rate:
+    post:
+      summary: Rate movie.
+      operationId: postMovieRate
+      parameters:
+        - description: Movie rate.
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/MovieRatingRequest'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Movie'
+        400:
+          description: Client error, e.g. unsifficient data
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Unauthorized error
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+
+  /library:
+    post:
+      summary: Add movie to library.
+      operationId: postLibrary
+      parameters:
+        - description: Movie library data.
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/MovieLibraryRequest'
+      responses:
+        204:
+          description: Success
+        400:
+          description: Client error, e.g. unsifficient data
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Unauthorized error
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+
+  /movie/{id}/accept:
+    put:
+      summary: Accept pending movie request
+      operationId: putMovieIdAccept
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - description: Movie id
+          in: path
+          name: id
+          required: true
+          type: integer
+      responses:
+        204:
+          description: Success
+        400:
+          description: Client error, e.g. unsifficient data
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Unauthorized error
+          schema:
+            $ref: '#/definitions/Error'
+        403:
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+
+  /movie/{id}/reject:
+    put:
+      summary: Reject pending movie request
+      operationId: putMovieIdReject
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - description: Movie id
+          in: path
+          name: id
+          required: true
+          type: integer
+      responses:
+        204:
+          description: Success
+        400:
+          description:  Client error, e.g. unsifficient data
+          schema:
+            $ref: '#/definitions/Error'
+        403:
+          description: Forbidden error
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
