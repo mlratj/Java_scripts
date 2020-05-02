@@ -1,6 +1,10 @@
 package org.example.api.consts;
 
+import org.example.api.handlers.ErrorHandler;
 import org.example.api.model.RegisterUserRequest;
+import org.example.api.model.User;
+import org.example.exceptions.ValidationException;
+import org.example.repository.impl.UserAccountRepository;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -16,6 +20,26 @@ public class UserResource
 {
     @POST
     public Response postUser(RegisterUserRequest body) {
-        return Response.status(Response.Status.OK).entity("mock call ok...").build();
+        try {
+            UserAccountRepository userAccountRepository = new UserAccountRepository();
+            return Response.status(
+                    Response.Status.OK
+            ).entity(
+                    User.createFromUserAccount(
+                            userAccountRepository.registerUser(body)
+                    )
+            ).build();
+        } catch (ValidationException ex) {
+            return Response.status(
+                    Response.Status.BAD_REQUEST
+            ).entity(
+                    ErrorHandler.getErrorResponse(ex)
+            ).build();
+        } catch (Exception ex) {return Response.status(
+                Response.Status.INTERNAL_SERVER_ERROR
+        ).entity(
+                ErrorHandler.getErrorResponse(ex)
+        ).build();
+        }
     }
 }

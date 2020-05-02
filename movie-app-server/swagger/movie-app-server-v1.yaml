@@ -72,6 +72,28 @@ definitions:
       email: 'user@java-course.pl'
       password: 'password'
 
+  AuthenticationResponse:
+    type: object
+    properties:
+      access_token:
+        type: string
+      expires_in:
+        type: integer
+      user_id:
+        type: integer
+      email_address:
+        type: string
+    required:
+      - access_token
+      - expires_in
+      - user_id
+      - email_address
+    example:
+      access_token: 'user_access_token'
+      expires_in: 1800
+      user_id: 1
+      user_mail: 'uzytkownik@java-wsb.pl'
+
 # US3 - movies listing
   Actor:
     type: object
@@ -299,7 +321,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/AuthenticationRequest'
         400:
           description: Client error, e.g. unsifficient data
           schema:

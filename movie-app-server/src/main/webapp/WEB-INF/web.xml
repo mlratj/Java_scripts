@@ -10,6 +10,10 @@
             <param-value>org.example</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>pl.wsb.students.main.ServerConfig</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>

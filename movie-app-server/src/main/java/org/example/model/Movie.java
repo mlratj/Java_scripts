@@ -136,3 +136,4 @@ public class Movie implements java.io.Serializable {
         this.movieRatings = movieRatings;
     }
 }
+

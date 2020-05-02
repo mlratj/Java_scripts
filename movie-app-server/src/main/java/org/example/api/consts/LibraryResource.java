@@ -1,6 +1,7 @@
 package org.example.api.consts;
 
 import org.example.api.model.MovieLibraryRequest;
+import org.example.security.annotation.Authenticate;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 public class LibraryResource {
     @POST
+    @Authenticate
     public Response postLibrary(MovieLibraryRequest body) {
         return Response.status(Response.Status.OK).entity("mock call ok...").build();
     }
