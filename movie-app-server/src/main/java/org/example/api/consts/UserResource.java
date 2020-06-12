@@ -35,11 +35,12 @@ public class UserResource
             ).entity(
                     ErrorHandler.getErrorResponse(ex)
             ).build();
-        } catch (Exception ex) {return Response.status(
-                Response.Status.INTERNAL_SERVER_ERROR
-        ).entity(
-                ErrorHandler.getErrorResponse(ex)
-        ).build();
+        } catch (Exception ex) {
+            return Response.status(
+                    Response.Status.INTERNAL_SERVER_ERROR
+            ).entity(
+                    ErrorHandler.getErrorResponse(ex)
+            ).build();
         }
     }
-}
+        }

@@ -18,6 +18,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.example.model.UserAccount;
+
 import javax.validation.constraints.*;
 
 /**
@@ -30,6 +32,11 @@ public class User   {
 
   @JsonProperty("email")
   private String email = null;
+
+  // not sure
+  public static Object createFromUserAccount(UserAccount registerUser) {
+    return registerUser;
+  }
 
   public User id(Integer id) {
     this.id = id;
