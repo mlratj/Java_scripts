@@ -174,3 +174,16 @@ CREATE INDEX movie_request_status_idx2 ON movie_request_status (deleted);
 ALTER TABLE movie ADD request_status_id INT UNSIGNED AFTER modified;
 ALTER TABLE movie ADD CONSTRAINT movie_fk2 FOREIGN KEY (request_status_id) REFERENCES
 movie_request_status (id);
+
+CREATE TABLE movie_favourite (
+ id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ created TIMESTAMP NULL DEFAULT NULL,
+ modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ movie_id INT UNSIGNED NOT NULL,
+ user_account_id INT UNSIGNED NOT NULL,
+ is_favourite BOOLEAN
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE UNIQUE INDEX movie_favourite_idx0 ON movie_favourite (movie_id, user_account_id);
+ALTER TABLE movie_favourite ADD CONSTRAINT movie_favourite_fk0 FOREIGN KEY (movie_id) REFERENCES
+movie (id);
+ALTER TABLE movie_favourite ADD CONSTRAINT movie_favourite_fk1 FOREIGN KEY (user_account_id);
