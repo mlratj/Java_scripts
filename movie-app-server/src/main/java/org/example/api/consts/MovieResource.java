@@ -20,27 +20,38 @@ public class MovieResource {
     ) {
         return Response.status(Response.Status.OK).entity("mock call ok...").build();
     }
+
     @Authenticate
     @POST
     public Response postMovie(MovieRequest body) {
         return Response.status(Response.Status.OK).entity("mock call ok...").build();
     }
+
     @Authenticate
     @POST
     @Path(ApiEndpoints.MOVIE_RATE)
     public Response postMovieRate(MovieRatingRequest body) {
         return Response.status(Response.Status.OK).entity("mock call ok...").build();
     }
+
     @Authenticate
     @PUT
     @Path(ApiEndpoints.MOVIE_ID_ACCEPT)
     public Response putMovieIdAccept(Integer id) {
         return Response.status(Response.Status.OK).entity("mock call ok...").build();
     }
+
     @Authenticate
     @PUT
     @Path(ApiEndpoints.MOVIE_ID_REJECT)
     public Response putMovieIdReject(Integer id) {
+        return Response.status(Response.Status.OK).entity("mock call ok...").build();
+    }
+
+    @Authenticate
+    @PUT
+    @Path(ApiEndpoints.MOVIE_FAVOURITE)
+    public Response MovieFavouriteRequest(Integer id) {
         return Response.status(Response.Status.OK).entity("mock call ok...").build();
     }
 }

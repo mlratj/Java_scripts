@@ -1,23 +1,20 @@
 package org.example.api.consts;
 
+import io.swagger.annotations.ApiParam;
 import org.example.api.handlers.ErrorHandler;
 import org.example.api.model.RegisterUserRequest;
 import org.example.api.model.User;
 import org.example.exceptions.ValidationException;
 import org.example.repository.impl.UserAccountRepository;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path(ApiEndpoints.USER)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class UserResource
-{
+public class UserResource {
     @POST
     public Response postUser(RegisterUserRequest body) {
         try {
@@ -43,4 +40,29 @@ public class UserResource
             ).build();
         }
     }
-        }
+
+    @GET
+    @Path(ApiEndpoints.USER_LOGOUT)
+    public Response logoutUser(
+            @QueryParam(ApiEndpoints.PARAM_LIMIT) Integer limit,
+            @QueryParam(ApiEndpoints.PARAM_OFFSET) Integer offset,
+            @QueryParam(ApiEndpoints.PARAM_SEARCH) String search
+    ) {
+        return Response.status(Response.Status.OK).entity("mock call ok...").build();
+    }
+
+    @GET
+    @Path(ApiEndpoints.USER_ID)
+    public Response getUserById(
+            @QueryParam(ApiEndpoints.PARAM_LIMIT) Integer limit,
+            @QueryParam(ApiEndpoints.PARAM_OFFSET) Integer offset,
+            @QueryParam(ApiEndpoints.PARAM_SEARCH) String search
+    ) {
+        return Response.status(Response.Status.OK).entity("mock call ok...").build();
+    }
+    @DELETE
+    @Path(ApiEndpoints.USER_ID)
+    public Response deleteUser(Integer id) {
+        return Response.status(Response.Status.OK).entity("mock call ok...").build();
+    }
+}

@@ -1,14 +1,24 @@
 package org.example.exceptions;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.example.api.model.AuthenticationRequest;
+import sun.plugin.dom.html.HTMLBodyElement;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class ValidationException extends Exception {
+
     public ValidationException(String message) {
         super(message);
     }

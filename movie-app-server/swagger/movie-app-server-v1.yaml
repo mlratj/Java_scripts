@@ -22,7 +22,7 @@ definitions:
     required:
       - message
     example:
-      message: 'Sample error message.'
+      message: 'Error.'
 
 # US1 - Registration (GET)
   RegisterUserRequest:
@@ -272,6 +272,25 @@ definitions:
       year: '2001'
       director: 'Ron Howard'
 
+# US 9 Add favourite flag to a movie
+  MovieFavouriteRequest:
+    type: object
+    properties:
+      movie_id:
+        type: integer
+        description: Movie to flag id
+      rating:
+        type: boolean
+        description: Favourite
+    required:
+      - movie_id
+      - boolean
+    example:
+      movie_id: 2
+      favourite: true
+
+# US 11
+
 paths:
   /user:
     post:
@@ -297,6 +316,53 @@ paths:
           description: Client error, e.g. unsifficient data
           schema:
             $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+
+#US 11 and 12: get user id and delete an user
+  /user/{id}:
+    get:
+      summary: "Get user by user id"
+      description: ""
+      operationId: "getUserById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: id
+          in: "path"
+          description: "The name that needs to be fetched. Use user1 for testing. "
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: "Successful"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid user id"
+        404:
+          description: "User not found"
+    delete:
+      tags:
+        - "user"
+      summary: "Delete user"
+      description: "Please be aware that this operation is irreversible."
+      operationId: "deleteUser"
+      produces:
+        - "application/json"
+      parameters:
+        - name: id
+          in: "path"
+          description: "The user id"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid user id supplied"
+        404:
+          description: "User not found"
         500:
           description: Server error, e.g. unexpeected application exception
           schema:
@@ -328,6 +394,28 @@ paths:
             $ref: '#/definitions/Error'
         401:
           description: Unauthorized error, e.g. bad credentials data
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+
+  /user/logout:
+    get:
+      tags:
+        - "user"
+      summary: >
+        Logs out current logged
+      operationId: "logoutUser"
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: "Logout successfully"
+        400:
+          description: Client error, e.g. unsifficient data
           schema:
             $ref: '#/definitions/Error'
         500:
@@ -431,6 +519,37 @@ paths:
           description: Server error, e.g. unexpeected application exception
           schema:
             $ref: '#/definitions/Error'
+
+# US 9 Add movie to favourites
+  /movie/favourite:
+    post:
+      summary: Add favourite flag to a movie.
+      operationId: postMovieFavourite
+      parameters:
+        - description: Favourite movie.
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/MovieFavouriteRequest'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Movie'
+        400:
+          description: Client error, e.g. unsifficient data
+          schema:
+            $ref: '#/definitions/Error'
+        401:
+          description: Unauthorized error
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: Server error, e.g. unexpeected application exception
+          schema:
+            $ref: '#/definitions/Error'
+
 
   /library:
     post:

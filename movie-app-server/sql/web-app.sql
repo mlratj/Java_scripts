@@ -10,7 +10,7 @@ CREATE UNIQUE INDEX role_idx0 ON role (abbr);
 CREATE INDEX role_idx1 ON role (name);
 CREATE INDEX role_idx2 ON role (deleted);
 INSERT INTO role (created, name, abbr)
-VALUES (NOW(), 'Administrator', 'ADMIN'), (NOW(), 'Użytkownik', 'USER');
+VALUES (NOW(), 'Administrator', 'ADMIN'), (NOW(), 'Użytkownik', 'USER'), (NOW(), 'Student', 'USER');
 
 CREATE TABLE user_account (
  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,

@@ -735,6 +735,30 @@ margin-bottom: 20px;
     "password" : "password"
   }
 };
+        defs["AuthenticationResponse"] = {
+  "type" : "object",
+  "required" : [ "access_token", "email_address", "expires_in", "user_id" ],
+  "properties" : {
+    "access_token" : {
+      "type" : "string"
+    },
+    "expires_in" : {
+      "type" : "integer"
+    },
+    "user_id" : {
+      "type" : "integer"
+    },
+    "email_address" : {
+      "type" : "string"
+    }
+  },
+  "example" : {
+    "access_token" : "user_access_token",
+    "expires_in" : 1800,
+    "user_id" : 1,
+    "user_mail" : "uzytkownik@java-wsb.pl"
+  }
+};
         defs["Error"] = {
   "type" : "object",
   "required" : [ "message" ],
@@ -745,7 +769,7 @@ margin-bottom: 20px;
     }
   },
   "example" : {
-    "message" : "Sample error message."
+    "message" : "Error."
   }
 };
         defs["Movie"] = {
@@ -804,6 +828,24 @@ margin-bottom: 20px;
       "first_name" : "Jennifer",
       "last_name" : "Connelly"
     } ]
+  }
+};
+        defs["MovieFavouriteRequest"] = {
+  "type" : "object",
+  "required" : [ "movie_id" ],
+  "properties" : {
+    "movie_id" : {
+      "type" : "integer",
+      "description" : "Movie to flag id"
+    },
+    "rating" : {
+      "type" : "boolean",
+      "description" : "Favourite"
+    }
+  },
+  "example" : {
+    "movie_id" : 2,
+    "favourite" : true
   }
 };
         defs["MovieLibraryRequest"] = {
@@ -969,6 +1011,9 @@ margin-bottom: 20px;
                     <li data-group="Default" data-name="getMovie" class="">
                       <a href="#api-Default-getMovie">getMovie</a>
                     </li>
+                    <li data-group="Default" data-name="getUserById" class="">
+                      <a href="#api-Default-getUserById">getUserById</a>
+                    </li>
                     <li data-group="Default" data-name="postAuthenticate" class="">
                       <a href="#api-Default-postAuthenticate">postAuthenticate</a>
                     </li>
@@ -977,6 +1022,9 @@ margin-bottom: 20px;
                     </li>
                     <li data-group="Default" data-name="postMovie" class="">
                       <a href="#api-Default-postMovie">postMovie</a>
+                    </li>
+                    <li data-group="Default" data-name="postMovieFavourite" class="">
+                      <a href="#api-Default-postMovieFavourite">postMovieFavourite</a>
                     </li>
                     <li data-group="Default" data-name="postMovieRate" class="">
                       <a href="#api-Default-postMovieRate">postMovieRate</a>
@@ -989,6 +1037,13 @@ margin-bottom: 20px;
                     </li>
                     <li data-group="Default" data-name="putMovieIdReject" class="">
                       <a href="#api-Default-putMovieIdReject">putMovieIdReject</a>
+                    </li>
+                  <li class="nav-header" data-group="User"><a href="#api-User">API Methods - User</a></li>
+                    <li data-group="User" data-name="deleteUser" class="">
+                      <a href="#api-User-deleteUser">deleteUser</a>
+                    </li>
+                    <li data-group="User" data-name="logoutUser" class="">
+                      <a href="#api-User-logoutUser">logoutUser</a>
                     </li>
           </ul>
         </nav>
@@ -1460,6 +1515,314 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
+                    <div id="api-Default-getUserById">
+                      <article id="api-Default-getUserById-0" data-group="User" data-name="getUserById" data-version="0">
+                        <div class="pull-left">
+                          <h1>getUserById</h1>
+                          <p>Get user by user id</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/user/{id}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-getUserById-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-getUserById-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-getUserById-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-getUserById-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-getUserById-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-getUserById-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-getUserById-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-getUserById-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-getUserById-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-getUserById-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-getUserById-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-getUserById-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://api.pl/user/{id}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-getUserById-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        Integer id = 56; // Integer | The name that needs to be fetched. Use user1 for testing. 
+        try {
+            User result = apiInstance.getUserById(id);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getUserById");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-getUserById-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        Integer id = 56; // Integer | The name that needs to be fetched. Use user1 for testing. 
+        try {
+            User result = apiInstance.getUserById(id);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#getUserById");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-getUserById-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-getUserById-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">Integer *id = 56; // The name that needs to be fetched. Use user1 for testing. 
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Get user by user id
+[apiInstance getUserByIdWith:id
+              completionHandler: ^(User output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getUserById-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var MovieAppApi = require('movie_app_api');
+
+var api = new MovieAppApi.DefaultApi()
+
+var id = 56; // {Integer} The name that needs to be fetched. Use user1 for testing. 
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getUserById(id, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-getUserById-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-getUserById-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getUserByIdExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new DefaultApi();
+            var id = 56;  // Integer | The name that needs to be fetched. Use user1 for testing. 
+
+            try
+            {
+                // Get user by user id
+                User result = apiInstance.getUserById(id);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.getUserById: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getUserById-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\DefaultApi();
+$id = 56; // Integer | The name that needs to be fetched. Use user1 for testing. 
+
+try {
+    $result = $api_instance->getUserById($id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getUserById: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getUserById-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $id = 56; # Integer | The name that needs to be fetched. Use user1 for testing. 
+
+eval { 
+    my $result = $api_instance->getUserById(id => $id);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->getUserById: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-getUserById-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+id = 56 # Integer | The name that needs to be fetched. Use user1 for testing. 
+
+try: 
+    # Get user by user id
+    api_response = api_instance.get_user_by_id(id)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->getUserById: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+<td>
+
+
+    <div id="d2e199_getUserById_id">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Integer
+                </span>
+
+                    <div class="inner description">
+                        The name that needs to be fetched. Use user1 for testing. 
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Successful </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getUserById-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getUserById-200-schema">
+                                  <div id='responses-getUserById-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Successful",
+  "schema" : {
+    "$ref" : "#/definitions/User"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getUserById-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getUserById-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getUserById-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Invalid user id </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 404 - User not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-Default-postAuthenticate">
                       <article id="api-Default-postAuthenticate-0" data-group="User" data-name="postAuthenticate" data-version="0">
                         <div class="pull-left">
@@ -1510,7 +1873,7 @@ public class DefaultApiExample {
         DefaultApi apiInstance = new DefaultApi();
         AuthenticationRequest body = ; // AuthenticationRequest | Credentials data.
         try {
-            User result = apiInstance.postAuthenticate(body);
+            AuthenticationRequest result = apiInstance.postAuthenticate(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#postAuthenticate");
@@ -1529,7 +1892,7 @@ public class DefaultApiExample {
         DefaultApi apiInstance = new DefaultApi();
         AuthenticationRequest body = ; // AuthenticationRequest | Credentials data.
         try {
-            User result = apiInstance.postAuthenticate(body);
+            AuthenticationRequest result = apiInstance.postAuthenticate(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DefaultApi#postAuthenticate");
@@ -1549,7 +1912,7 @@ DefaultApi *apiInstance = [[DefaultApi alloc] init];
 
 // Authenticate user.
 [apiInstance postAuthenticateWith:body
-              completionHandler: ^(User output, NSError* error) {
+              completionHandler: ^(AuthenticationRequest output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -1602,7 +1965,7 @@ namespace Example
             try
             {
                 // Authenticate user.
-                User result = apiInstance.postAuthenticate(body);
+                AuthenticationRequest result = apiInstance.postAuthenticate(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1735,7 +2098,7 @@ $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "Success",
   "schema" : {
-    "$ref" : "#/definitions/User"
+    "$ref" : "#/definitions/AuthenticationRequest"
   }
 };
                                         var schema = schemaWrapper.schema;
@@ -2709,6 +3072,439 @@ $(document).ready(function() {
                                     </script>
                                   </div>
                                   <input id='responses-postMovie-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-postMovieFavourite">
+                      <article id="api-Default-postMovieFavourite-0" data-group="User" data-name="postMovieFavourite" data-version="0">
+                        <div class="pull-left">
+                          <h1>postMovieFavourite</h1>
+                          <p>Add favourite flag to a movie.</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/movie/favourite</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-postMovieFavourite-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-postMovieFavourite-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-postMovieFavourite-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-postMovieFavourite-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-postMovieFavourite-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-postMovieFavourite-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-postMovieFavourite-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-postMovieFavourite-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-postMovieFavourite-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-postMovieFavourite-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-postMovieFavourite-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-postMovieFavourite-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://api.pl/movie/favourite"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-postMovieFavourite-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        MovieFavouriteRequest body = ; // MovieFavouriteRequest | Favourite movie.
+        try {
+            Movie result = apiInstance.postMovieFavourite(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#postMovieFavourite");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-postMovieFavourite-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        MovieFavouriteRequest body = ; // MovieFavouriteRequest | Favourite movie.
+        try {
+            Movie result = apiInstance.postMovieFavourite(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#postMovieFavourite");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-postMovieFavourite-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-postMovieFavourite-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">MovieFavouriteRequest *body = ; // Favourite movie.
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Add favourite flag to a movie.
+[apiInstance postMovieFavouriteWith:body
+              completionHandler: ^(Movie output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-postMovieFavourite-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var MovieAppApi = require('movie_app_api');
+
+var api = new MovieAppApi.DefaultApi()
+
+var body = ; // {MovieFavouriteRequest} Favourite movie.
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.postMovieFavourite(body, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-postMovieFavourite-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-postMovieFavourite-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class postMovieFavouriteExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new DefaultApi();
+            var body = new MovieFavouriteRequest(); // MovieFavouriteRequest | Favourite movie.
+
+            try
+            {
+                // Add favourite flag to a movie.
+                Movie result = apiInstance.postMovieFavourite(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.postMovieFavourite: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-postMovieFavourite-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\DefaultApi();
+$body = ; // MovieFavouriteRequest | Favourite movie.
+
+try {
+    $result = $api_instance->postMovieFavourite($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->postMovieFavourite: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-postMovieFavourite-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $body = WWW::SwaggerClient::Object::MovieFavouriteRequest->new(); # MovieFavouriteRequest | Favourite movie.
+
+eval { 
+    my $result = $api_instance->postMovieFavourite(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->postMovieFavourite: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-postMovieFavourite-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+body =  # MovieFavouriteRequest | Favourite movie.
+
+try: 
+    # Add favourite flag to a movie.
+    api_response = api_instance.post_movie_favourite(body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->postMovieFavourite: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+<td>
+
+
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "in" : "body",
+  "name" : "body",
+  "description" : "Favourite movie.",
+  "required" : true,
+  "schema" : {
+    "$ref" : "#/definitions/MovieFavouriteRequest"
+  }
+};
+  var schema = schemaWrapper.schema;
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_postMovieFavourite_body');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_postMovieFavourite_body"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Success </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-postMovieFavourite-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-postMovieFavourite-200-schema">
+                                  <div id='responses-postMovieFavourite-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Success",
+  "schema" : {
+    "$ref" : "#/definitions/Movie"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-postMovieFavourite-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-postMovieFavourite-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-postMovieFavourite-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Client error, e.g. unsifficient data </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-postMovieFavourite-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-postMovieFavourite-400-schema">
+                                  <div id='responses-postMovieFavourite-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Client error, e.g. unsifficient data",
+  "schema" : {
+    "$ref" : "#/definitions/Error"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-postMovieFavourite-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-postMovieFavourite-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-postMovieFavourite-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 401 - Unauthorized error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-postMovieFavourite-401-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-postMovieFavourite-401-schema">
+                                  <div id='responses-postMovieFavourite-401-schema-401' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Unauthorized error",
+  "schema" : {
+    "$ref" : "#/definitions/Error"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-postMovieFavourite-401-schema-data').val(stringify(schema));
+                                        var result = $('#responses-postMovieFavourite-401-schema-401');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-postMovieFavourite-401-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Server error, e.g. unexpeected application exception </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-postMovieFavourite-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-postMovieFavourite-500-schema">
+                                  <div id='responses-postMovieFavourite-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Server error, e.g. unexpeected application exception",
+  "schema" : {
+    "$ref" : "#/definitions/Error"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-postMovieFavourite-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-postMovieFavourite-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-postMovieFavourite-500-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -4329,6 +5125,606 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-putMovieIdReject-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                  </section>
+                <section id="api-User">
+                  <h1>User</h1>
+                    <div id="api-User-deleteUser">
+                      <article id="api-User-deleteUser-0" data-group="User" data-name="deleteUser" data-version="0">
+                        <div class="pull-left">
+                          <h1>deleteUser</h1>
+                          <p>Delete user</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Please be aware that this operation is irreversible.</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/user/{id}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-User-deleteUser-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-User-deleteUser-0-java">Java</a></li>
+                          <li class=""><a href="#examples-User-deleteUser-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-User-deleteUser-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-User-deleteUser-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-User-deleteUser-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-User-deleteUser-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-User-deleteUser-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-User-deleteUser-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-User-deleteUser-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-User-deleteUser-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-User-deleteUser-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "http://api.pl/user/{id}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-User-deleteUser-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.UserApi;
+
+import java.io.File;
+import java.util.*;
+
+public class UserApiExample {
+
+    public static void main(String[] args) {
+        
+        UserApi apiInstance = new UserApi();
+        Integer id = 56; // Integer | The user id
+        try {
+            apiInstance.deleteUser(id);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#deleteUser");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-User-deleteUser-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
+
+public class UserApiExample {
+
+    public static void main(String[] args) {
+        UserApi apiInstance = new UserApi();
+        Integer id = 56; // Integer | The user id
+        try {
+            apiInstance.deleteUser(id);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#deleteUser");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-User-deleteUser-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-User-deleteUser-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">Integer *id = 56; // The user id
+
+UserApi *apiInstance = [[UserApi alloc] init];
+
+// Delete user
+[apiInstance deleteUserWith:id
+              completionHandler: ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-deleteUser-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var MovieAppApi = require('movie_app_api');
+
+var api = new MovieAppApi.UserApi()
+
+var id = 56; // {Integer} The user id
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.deleteUser(id, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-User-deleteUser-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-User-deleteUser-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class deleteUserExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new UserApi();
+            var id = 56;  // Integer | The user id
+
+            try
+            {
+                // Delete user
+                apiInstance.deleteUser(id);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling UserApi.deleteUser: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-deleteUser-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\UserApi();
+$id = 56; // Integer | The user id
+
+try {
+    $api_instance->deleteUser($id);
+} catch (Exception $e) {
+    echo 'Exception when calling UserApi->deleteUser: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-deleteUser-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::UserApi;
+
+my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $id = 56; # Integer | The user id
+
+eval { 
+    $api_instance->deleteUser(id => $id);
+};
+if ($@) {
+    warn "Exception when calling UserApi->deleteUser: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-deleteUser-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.UserApi()
+id = 56 # Integer | The user id
+
+try: 
+    # Delete user
+    api_instance.delete_user(id)
+except ApiException as e:
+    print("Exception when calling UserApi->deleteUser: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+<td>
+
+
+    <div id="d2e199_deleteUser_id">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Integer
+                </span>
+
+                    <div class="inner description">
+                        The user id
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 400 - Invalid user id supplied </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 404 - User not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Server error, e.g. unexpeected application exception </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-deleteUser-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-deleteUser-500-schema">
+                                  <div id='responses-deleteUser-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Server error, e.g. unexpeected application exception",
+  "schema" : {
+    "$ref" : "#/definitions/Error"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-deleteUser-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deleteUser-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-deleteUser-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-User-logoutUser">
+                      <article id="api-User-logoutUser-0" data-group="User" data-name="logoutUser" data-version="0">
+                        <div class="pull-left">
+                          <h1>logoutUser</h1>
+                          <p>Logs out current logged
+</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/user/logout</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-User-logoutUser-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-User-logoutUser-0-java">Java</a></li>
+                          <li class=""><a href="#examples-User-logoutUser-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-User-logoutUser-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-User-logoutUser-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-User-logoutUser-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-User-logoutUser-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-User-logoutUser-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-User-logoutUser-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-User-logoutUser-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-User-logoutUser-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-User-logoutUser-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://api.pl/user/logout"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-User-logoutUser-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.UserApi;
+
+import java.io.File;
+import java.util.*;
+
+public class UserApiExample {
+
+    public static void main(String[] args) {
+        
+        UserApi apiInstance = new UserApi();
+        try {
+            apiInstance.logoutUser();
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#logoutUser");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-User-logoutUser-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
+
+public class UserApiExample {
+
+    public static void main(String[] args) {
+        UserApi apiInstance = new UserApi();
+        try {
+            apiInstance.logoutUser();
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#logoutUser");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-User-logoutUser-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-User-logoutUser-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+UserApi *apiInstance = [[UserApi alloc] init];
+
+// Logs out current logged
+
+[apiInstance logoutUserWithCompletionHandler: 
+              ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-logoutUser-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var MovieAppApi = require('movie_app_api');
+
+var api = new MovieAppApi.UserApi()
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.logoutUser(callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-User-logoutUser-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-User-logoutUser-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class logoutUserExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new UserApi();
+
+            try
+            {
+                // Logs out current logged
+
+                apiInstance.logoutUser();
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling UserApi.logoutUser: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-logoutUser-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\UserApi();
+
+try {
+    $api_instance->logoutUser();
+} catch (Exception $e) {
+    echo 'Exception when calling UserApi->logoutUser: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-logoutUser-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::UserApi;
+
+my $api_instance = WWW::SwaggerClient::UserApi->new();
+
+eval { 
+    $api_instance->logoutUser();
+};
+if ($@) {
+    warn "Exception when calling UserApi->logoutUser: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-logoutUser-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.UserApi()
+
+try: 
+    # Logs out current logged
+
+    api_instance.logout_user()
+except ApiException as e:
+    print("Exception when calling UserApi->logoutUser: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Logout successfully </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 400 - Client error, e.g. unsifficient data </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-logoutUser-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-logoutUser-400-schema">
+                                  <div id='responses-logoutUser-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Client error, e.g. unsifficient data",
+  "schema" : {
+    "$ref" : "#/definitions/Error"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-logoutUser-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-logoutUser-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-logoutUser-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Server error, e.g. unexpeected application exception </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-logoutUser-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-logoutUser-500-schema">
+                                  <div id='responses-logoutUser-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Server error, e.g. unexpeected application exception",
+  "schema" : {
+    "$ref" : "#/definitions/Error"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-logoutUser-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-logoutUser-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-logoutUser-500-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
