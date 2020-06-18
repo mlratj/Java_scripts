@@ -51,7 +51,7 @@ public class MovieResource {
     @Authenticate
     @PUT
     @Path(ApiEndpoints.MOVIE_FAVOURITE)
-    public Response MovieFavouriteRequest(Integer id) {
+    public Response putMovieFavouriteRequest(Integer id) {
         return Response.status(Response.Status.OK).entity("mock call ok...").build();
     }
 }
