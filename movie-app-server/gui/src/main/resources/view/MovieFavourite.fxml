@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="307.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controller.MovieFavourite">
+      <HBox layoutY="121.0" prefHeight="121.0" prefWidth="605.0">
+         <children>
+            <VBox prefHeight="121.0" prefWidth="207.0">
+               <children>
+                  <Label prefHeight="57.0" prefWidth="237.0" text="Movie name">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets left="5.0" />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="9.0" />
+                     </padding>
+                  </Label>
+               </children></VBox>
+            <VBox prefHeight="121.0" prefWidth="202.0">
+               <children>
+                  <TextField fx:id="tfMovieName" prefHeight="5.0" prefWidth="202.0">
+                     <opaqueInsets>
+                        <Insets top="7.0" />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets top="12.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children></VBox>
+            <CheckBox fx:id="chbFavourite" mnemonicParsing="false" prefHeight="49.0" prefWidth="114.0" text="Favourite">
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin></CheckBox>
+         </children>
+      </HBox>
+      <HBox layoutY="264.0" prefHeight="137.0" prefWidth="605.0">
+         <children>
+            <HBox prefHeight="137.0" prefWidth="605.0">
+               <children>
+                  <Button fx:id="btnConfirm" mnemonicParsing="false" prefHeight="27.0" prefWidth="81.0" text="Confirm">
+                     <HBox.margin>
+                        <Insets left="250.0" />
+                     </HBox.margin></Button>
+               </children>
+            </HBox>
+         </children></HBox>
+</AnchorPane>
